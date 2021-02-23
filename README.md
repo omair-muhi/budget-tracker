@@ -17,7 +17,7 @@ This is a web-application demonstrating the use of PWA features such as offline 
 ![Budget main screen!](images/landing-page.png)
 ## Credits
 * UoT FSF Bcamp - this template
-* 
+* Week-18 - PWA activities
 
 ## License
 
