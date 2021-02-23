@@ -15,6 +15,7 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
+// use production or development DB
 mongoose.connect(
     process.env.MONGODB_URI || "mongodb://localhost/budget", {
         useNewUrlParser: true,
