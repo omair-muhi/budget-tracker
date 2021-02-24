@@ -12,7 +12,7 @@ This is a web-application demonstrating the use of PWA features such as offline 
 ## Usage 
 * To install: 
 * To run: 
-* Access at: 
+* Access at: https://floating-shelf-15662.herokuapp.com
 * Screenshot:
 ![Budget main screen!](images/landing-page.png)
 ## Credits
