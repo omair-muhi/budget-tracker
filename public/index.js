@@ -220,6 +220,14 @@ function getAllRecords() {
                     }
                 })
                 .then(response => {
+                    // clear indexedDB here
+                    var request = db.transaction(["transactions"], "readwrite")
+                        .objectStore("transactions")
+                        .clear();
+                    request.onsuccess = function(event) {
+                        // It's gone!
+                        console.log("IndexedDB cleared!")
+                    };
                     return response.json();
                 })
                 .catch(err => {
