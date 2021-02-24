@@ -47,37 +47,38 @@ self.addEventListener("activate", function(evt) {
 
 // intercept network requests
 self.addEventListener('fetch', function(evt) {
-    console.log("Service-Worker recv'd FETCH");
     if (evt.request.url.includes("/api/transaction")) {
+        console.log("Service-Worker recv'd FETCH");
         if (evt.request.method == 'GET') {
             console.log("Service-Worker recv'd GET");
-            // evt.respondWith(
-            //     caches.open(DATA_CACHE_NAME).then(cache => {
-            //         return fetch(evt.request)
-            //             .then(response => {
-            //                 // If the response was good, clone it and store it in the cache.
-            //                 if (response.status === 200) {
-            //                     cache.put(evt.request.url, response.clone());
-            //                 }
+            evt.respondWith(
+                caches.open(DATA_CACHE_NAME).then(cache => {
+                    return fetch(evt.request)
+                        .then(response => {
+                            // If the response was good, clone it and store it in the cache.
+                            if (response.status === 200) {
+                                cache.put(evt.request.url, response.clone());
+                            }
 
-            //                 return response;
-            //             })
-            //             .catch(err => {
-            //                 // Network request failed, try to get it from the cache.
-            //                 console.log("Network request failed");
-            //                 console.log(err);
-            //                 return cache.match(evt.request);
-            //             });
-            //     }).catch(err => {
-            //         console.log("Failed to open cache");
-            //         console.log(err);
-            //     })
-            // );
-        } else if (evt.request.method == 'POST') {
-            console.log("Service-Worker recv'd POST");
+                            return response;
+                        })
+                        .catch(err => {
+                            // Network request failed, try to get it from the cache.
+                            console.log("Network request failed");
+                            console.log(err);
+                            return cache.match(evt.request);
+                        });
+                }).catch(err => {
+                    console.log("Failed to open cache");
+                    console.log(err);
+                })
+            );
+            // } else if (evt.request.method == 'POST') {
+            // console.log("Service-Worker recv'd POST");
         }
     } else {
         // serve static assets
+        console.log("Service-Worker serving static assets");
         evt.respondWith(
             caches.open(CACHE_NAME).then(cache => {
                 return cache.match(evt.request).then(response => {
