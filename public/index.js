@@ -211,6 +211,22 @@ function getAllRecords() {
             console.log("Got all transactions:");
             console.log(event.target.result);
             // send bulk fetch to server here
+            fetch("/api/transaction/bulk", {
+                    method: "POST",
+                    body: JSON.stringify(event.target.result),
+                    headers: {
+                        Accept: "application/json, text/plain, */*",
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(response => {
+                    return response.json();
+                })
+                .catch(err => {
+                    console.info("POST bulk failed!");
+                    console.log(err);
+                });
+            // send bulk fetch to server here
         };
     }
 
