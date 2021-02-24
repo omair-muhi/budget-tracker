@@ -108,12 +108,6 @@ function saveRecord(budgetTansaction) {
             transactionObjectStore.add(budgetTansaction);
         };
     };
-    // success handler
-    // request.onsuccess = function(event) {
-    //     // Do something with request.result!
-    //     console.info("Transaction added to indexedDB!");
-    //     console.log(request.result);
-    // };
     // Add data
     if (db !== undefined) {
         var transaction = db.transaction(["transactions"], "readwrite");
@@ -132,23 +126,6 @@ function saveRecord(budgetTansaction) {
             console.log("New transaction added!", event.target.result);
         };
     }
-    // DEAD code
-    /*
-window.indexedDB.open('budget', 1, function(upgradeDb) {
-console.log('making a new object store');
-if (!upgradeDb.objectStoreNames.contains('transactions')) {
-    upgradeDb.createObjectStore('transactions', { autoIncrement: true });
-}
-})      
-.then(function(db) {
-var tx = db.transaction('transactions', 'readwrite');
-var transactions = tx.objectStore('transactions');
-transactions.add(transaction);
-return tx.complete;
-}).then(function() {
-console.log('added item to the transactions store!');
-});
-*/
 }
 
 function sendTransaction(isAdding) {
@@ -223,3 +200,23 @@ document.querySelector("#add-btn").onclick = function() {
 document.querySelector("#sub-btn").onclick = function() {
     sendTransaction(false);
 };
+
+// Reference: MDN - Using IndexedDB- Web APIs
+function getAllRecords() {
+    // Retrieve all data
+    if (db !== undefined) {
+        var transaction = db.transaction(["transactions"]);
+        var objectStore = transaction.objectStore("transactions");
+        objectStore.getAll().onsuccess = function(event) {
+            console.log("Got all transactions:");
+            console.log(event.target.result);
+            // send bulk fetch to server here
+        };
+    }
+
+}
+// add listener for going online
+window.addEventListener('online', function(e) {
+    console.log('We are online now!!!');
+    getAllRecords();
+});
